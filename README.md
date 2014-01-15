@@ -1,6 +1,6 @@
 # Bullhorn::Rest
 
-Ruby wrapper for the [Bullhorn REST API](http://developer.bullhorn.com/articles/getting_started).
+Ruby wrapper for the [Bullhorn REST API](http://developer.bullhorn.com/articles/getting_started). See the official [Bullhorn documentation](http://developer.bullhorn.com/documentation).
 
 ## Installation
 

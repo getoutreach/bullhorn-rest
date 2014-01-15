@@ -69,6 +69,7 @@ module Authentication
 
 
   def authenticated?
+    # TODO: check expires
     !!rest_token
   end
 
