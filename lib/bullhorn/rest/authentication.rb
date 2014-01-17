@@ -36,7 +36,7 @@ module Authentication
     hash = JSON.parse(res.body)
 
     @access_token = hash['access_token']
-    @access_token_expires_in = hash['expires_in']
+    @access_token_expires_at = hash['expires_in'].to_i.seconds.from_now
     @refresh_token = hash['refresh_token']
   end
 
@@ -47,6 +47,7 @@ module Authentication
       version: '*',
       access_token: access_token
     }
+    params[:ttl] = ttl if ttl
     response = auth_conn.get url, params
     hash = JSON.parse(response.body)
 

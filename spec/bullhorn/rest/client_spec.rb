@@ -26,6 +26,19 @@ describe Bullhorn::Rest::Client, :vcr do
 
       end
 
+      context 'and ttl parameter set' do
+
+        let(:options) {{username: test_bh_username, password: test_bh_password, ttl: 1000}}
+
+        it 'expires later', focus: true do
+
+          client.authenticate
+          expect(client.rest_token).to_not be_nil
+
+        end
+
+      end
+
     end
 
     context 'when access_token set' do

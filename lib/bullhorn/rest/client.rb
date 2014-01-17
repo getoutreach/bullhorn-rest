@@ -42,7 +42,7 @@ class Client
   include Bullhorn::Rest::Entities::TearsheetRecipient
   include Bullhorn::Rest::Entities::TimeUnit
 
-  attr_reader :username, :password, :client_id, :client_secret, :auth_code, :access_token, :rest_token, :rest_url, :refresh_token
+  attr_reader :username, :password, :client_id, :client_secret, :auth_code, :access_token, :access_token_expires_at, :rest_token, :rest_url, :refresh_token, :ttl
 
   # Initializes a new Bullhorn REST Client
   def initialize(options = {})
@@ -56,6 +56,7 @@ class Client
     @rest_token = options[:rest_token]
     @access_token = options[:access_token]
     @refresh_token = options[:refresh_token]
+    @ttl = options[:ttl]
 
   end
 
