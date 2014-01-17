@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe Bullhorn::Rest::Client, :vcr do
 
+  let(:default_options) {{client_id: test_bh_client_id, client_secret: test_bh_client_secret}}
   let(:options) {{}}
-  let(:client) { Bullhorn::Rest::Client.new({client_id: test_bh_client_id, client_secret: test_bh_client_secret}.merge(options)) }
+  let(:client) { Bullhorn::Rest::Client.new(default_options.merge(options)) }
 
   describe 'authentication' do
 
@@ -25,6 +26,45 @@ describe Bullhorn::Rest::Client, :vcr do
 
       end
 
+    end
+
+    context 'when access_token set' do
+
+      let(:options) {
+        c = Bullhorn::Rest::Client.new(default_options.merge({username: test_bh_username, password: test_bh_password}))
+        c.authenticate
+        {access_token: c.access_token}
+      }
+
+      it 'authenticates' do
+
+        expect(client.access_token).to_not be_nil
+        expect(client.rest_token).to be_nil
+
+        client.authenticate
+
+        expect(client.access_token).to_not be_nil
+        expect(client.rest_token).to_not be_nil
+
+      end
+
+    end
+
+    context 'when rest_token and rest_url set' do
+      let(:options) {
+        c = Bullhorn::Rest::Client.new(default_options.merge({username: test_bh_username, password: test_bh_password}))
+        c.authenticate
+        {rest_token: c.rest_token, rest_url: c.rest_url}
+      }
+
+      it 'authenticates' do
+        expect(client.rest_token).to_not be_nil
+
+        client.authenticate
+
+        expect(client.rest_token).to_not be_nil
+
+      end
     end
 
   end
