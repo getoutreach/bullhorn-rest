@@ -150,7 +150,7 @@ module Authentication
       url.port = @client.rest_url.port
       url.scheme = @client.rest_url.scheme
       url.path = File.join(@client.rest_url.path, url.path)
-      query = CGI::parse(url.query)
+      query = url.query ? CGI::parse(url.query) : {}
       query[:BhRestToken] = @client.rest_token
       url.query = URI.encode_www_form(query)
     end
