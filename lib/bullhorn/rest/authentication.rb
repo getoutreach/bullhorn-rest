@@ -147,6 +147,7 @@ module Authentication
     # Add rest url and token to the url
     def rebuild_url(url)
       url.host = @client.rest_url.host
+      url.port = @client.rest_url.port
       url.scheme = @client.rest_url.scheme
       url.path = File.join(@client.rest_url.path, url.path)
       query = CGI::parse(url.query)
