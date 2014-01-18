@@ -1,5 +1,7 @@
 require 'active_support/all'
 
+require 'json'
+
 module Bullhorn
 module Rest
 module Entities
@@ -21,13 +23,15 @@ module Base
       define_method("department_#{plural}") do |options={}|
         params = {fields: '*'}.merge(options)
         path = "department#{name_plural}"
-        conn.get path, params
+        res = conn.get path, params
+        JSON.parse(res.body)
       end
 
       define_method("user_#{plural}") do |options={}|
         params = {fields: '*'}.merge(options)
         path = "my#{name_plural}"
-        conn.get path, params
+        res = conn.get path, params
+        JSON.parse(res.body)
       end
 
       alias_method plural, "department_#{plural}"
@@ -42,24 +46,28 @@ module Base
     define_method("query_#{plural}") do |options={}|
       params = {fields: '*'}.merge(options)
       path = "query/#{name}"
-      conn.get path, params
+      res = conn.get path, params
+      JSON.parse(res.body)
     end
 
     unless options[:immutable]
 
       define_method("create_#{entity}") do |id, attributes={}|
         path = "#{name}/#{id}"
-        conn.put path, attributes
+        res = conn.put path, attributes
+        JSON.parse(res.body)
       end
 
       define_method("update_#{entity}") do |id, attributes={}|
         path = "#{name}/#{id}"
-        conn.post path, attributes
+        res = conn.post path, attributes
+        JSON.parse(res.body)
       end
 
       define_method("delete_#{entity}") do |id|
         path = "#{name}/#{id}"
-        conn.delete path
+        res = conn.delete path
+        JSON.parse(res.body)
       end
 
     end
