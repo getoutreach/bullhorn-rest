@@ -35,6 +35,9 @@ client.department_candidates
 # Get data for a particular candidate
 client.candidate(id)
 
+# Geta for multiple candidates
+client.candidate([id1, id2])
+
 # Update a candidate
 client.update_candidate(id, attributes)
 
@@ -107,6 +110,14 @@ The following entities are immutable and do not have any of the update/create/de
 * specialty
 * state
 * time_unit
+
+### Associations
+
+"Has Many" associations can be accessed by passing in the name of the association in the `association` key of the options hash on the normal entity method. For instance, in order to get all of the candidates associated with a tearsheet:
+
+```
+candidates = client.tearsheet(id, association: 'candidates')
+```
 
 ## Contributing
 

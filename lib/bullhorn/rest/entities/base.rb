@@ -52,7 +52,10 @@ module Base
 
     define_method(entity) do |id, options={}|
       params = {fields: '*'}.merge(options)
-      path = "entity/#{name}/#{id}"
+      path = "entity/#{name}/#{Array.wrap(id).join(',')}"
+      if assoc = options.delete(:association)
+        path += "/#{assoc}"
+      end
       res = conn.get path, params
       JSON.parse(res.body)
     end
