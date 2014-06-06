@@ -22,7 +22,6 @@ module Authentication
     }
     res = auth_conn.get url, params
     location = res.headers['location']
-
     self.auth_code = CGI::parse(URI(location).query)["code"].first
   end
 

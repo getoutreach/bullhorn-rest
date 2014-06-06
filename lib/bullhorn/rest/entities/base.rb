@@ -1,6 +1,6 @@
 require 'active_support/all'
-
 require 'json'
+require 'hashie'
 
 module Bullhorn
 module Rest
@@ -9,29 +9,67 @@ module Entities
 # http://developer.bullhorn.com/sites/default/files/BullhornRESTAPI_0.pdf
 module Base
 
+
   def entity
     @entity || self.name.demodulize.underscore
   end
 
+  module Decorated_Entity
+    def next_page
+      start_param = @current_record + record_count + 1
+
+      params = {:fields => '*', :count => record_count, :start => start_param}.merge(@options)           
+      res = @conn.get @path, params
+      json = JSON.parse(res.body)
+
+      obj = Hashie::Mash.new json
+      obj.record_count = json["count"]
+      obj.has_next_page = obj.total? ? ((obj.start + obj.record_count) <= obj.total) : false       
+
+      @current_record = @current_record + record_count    
+      obj
+    end
+  end 
+ 
   def define_methods(options={})
     name = entity.to_s.classify
     plural = entity.to_s.pluralize
-    name_plural = name.pluralize
+    name_plural = name.pluralize   
 
+    if options[:owner_methods]   
 
-    if options[:owner_methods]
+      define_method("decorate_response") do |res|
+        obj = Hashie::Mash.new res
+        obj.record_count = res["count"]
+        obj.has_next_page = obj.total? ? ((obj.start + obj.record_count) <= obj.total) : false       
+        obj  
+      end      
+
+      define_method("attach_next_page") do |obj, options, path, conn|
+        obj.instance_variable_set :@options, options
+        obj.instance_variable_set :@path, path
+        obj.instance_variable_set :@current_record, 0
+        obj.instance_variable_set :@conn, conn
+        obj.instance_eval do class << self; include Decorated_Entity; end; end       
+        obj
+      end   
+
       define_method("department_#{plural}") do |options={}|
-        params = {fields: '*'}.merge(options)
+        params = {:fields => '*', :count => '100'}.merge(options)
         path = "department#{name_plural}"
-        res = conn.get path, params
-        JSON.parse(res.body)
-      end
+
+        res = @conn.get path, params
+        obj = decorate_response JSON.parse(res.body)
+
+        attach_next_page obj, options, path, conn
+      end                         
 
       define_method("user_#{plural}") do |options={}|
-        params = {fields: '*'}.merge(options)
+        params = {:fields => '*', :count => '100'}.merge(options)
         path = "my#{name_plural}"
-        res = conn.get path, params
-        JSON.parse(res.body)
+        res = @conn.get path, params
+        obj = decorate_response JSON.parse(res.body)
+        attach_next_page obj, options, path, conn
       end
 
       alias_method plural, "department_#{plural}"
@@ -43,11 +81,20 @@ module Base
       end
     end
 
+    define_method("search_#{plural}") do |options={}|
+      params = {:fields => '*', :count => '500'}.merge(options)
+      path = "search/#{name}"
+      res = @conn.get path, params
+      obj = decorate_response JSON.parse(res.body)
+      attach_next_page obj, options, path, conn    
+    end
+
     define_method("query_#{plural}") do |options={}|
-      params = {fields: '*'}.merge(options)
+      params = {:fields => '*', :count => '500', :orderBy => 'name'}.merge(options)
       path = "query/#{name}"
-      res = conn.get path, params
-      JSON.parse(res.body)
+      res = @conn.get path, params
+      obj = decorate_response JSON.parse(res.body)
+      attach_next_page obj, options, path, conn     
     end
 
     define_method(entity) do |id, options={}|
