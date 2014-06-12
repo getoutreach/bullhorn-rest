@@ -10,6 +10,5 @@ group :test, :development do
   gem 'multi_json'
   gem 'awesome_print', :require => 'ap'
   gem 'pry'
-  gem 'byebug'
   gem 'maybe'
 end
