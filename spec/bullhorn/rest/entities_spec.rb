@@ -35,7 +35,6 @@ describe Bullhorn::Rest::Entities, :vcr do
   end
 
   let(:client) { Bullhorn::Rest::Client.new(client_id: test_bh_client_id, client_secret: test_bh_client_secret, username: test_bh_username, password: test_bh_password) }
-
   
   describe_entity :appointment
   describe_entity :appointment_attendee

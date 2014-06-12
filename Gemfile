@@ -12,4 +12,11 @@ group :test, :development do
   gem 'pry'
   gem 'byebug'
   gem 'maybe'
+  gem 'guard-rspec'
+  gem 'guard-spin'
+  gem 'guard-livereload'
+  gem 'rack-livereload'
+  gem 'pry-rails'
+  gem 'pry-debugger'
+  gem 'pry-stack_explorer'
 end
