@@ -1,18 +1,16 @@
-require 'json'
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.startrequire 'json'
+
 require 'rspec'
 require 'webmock/rspec'
-
 require 'bullhorn/rest'
-
 require 'byebug'
 require 'pry'
-
 require 'maybe'
 
 RSpec.configure do |config|
 
 end
-
 
 require 'vcr'
 VCR.configure do |c|

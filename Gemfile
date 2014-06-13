@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test, :development do
+  gem "codeclimate-test-reporter"
   gem 'rspec'
   gem 'vcr'
   gem 'webmock', ['>= 1.8.0', '< 1.16']
