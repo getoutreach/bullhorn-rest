@@ -18,6 +18,6 @@ group :test, :development do
   gem 'guard-livereload'
   gem 'rack-livereload'
   gem 'pry-rails'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'pry-stack_explorer'
 end
