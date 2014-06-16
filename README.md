@@ -1,6 +1,7 @@
 # Bullhorn::Rest
 
 [![Code Climate](https://codeclimate.com/github/MrMattWright/bullhorn-rest.png)](https://codeclimate.com/github/MrMattWright/bullhorn-rest)
+[![Code Climate](https://codeclimate.com/github/MrMattWright/bullhorn-rest/coverage.png)](https://codeclimate.com/github/MrMattWright/bullhorn-rest)
 
 
 Ruby wrapper for the [Bullhorn REST API](http://developer.bullhorn.com/articles/getting_started). For additional information on the API itself, see the official [Bullhorn documentation](http://developer.bullhorn.com/documentation).
