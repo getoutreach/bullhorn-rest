@@ -1,5 +1,6 @@
 require "codeclimate-test-reporter"
-CodeClimate::TestReporter.startrequire 'json'
+CodeClimate::TestReporter.start
+$:.unshift File.dirname(__FILE__)
 
 require 'rspec'
 require 'webmock/rspec'
