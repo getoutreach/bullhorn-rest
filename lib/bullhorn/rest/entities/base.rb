@@ -104,7 +104,7 @@ module Base
         path += "/#{assoc}"
       end
       res = conn.get path, params
-      JSON.parse(res.body)
+      Hashie::Mash.new JSON.parse(res.body)
     end
 
     unless options[:immutable]
@@ -112,19 +112,19 @@ module Base
       define_method("create_#{entity}") do |id, attributes={}|
         path = "entity/#{name}/#{id}"
         res = conn.put path, attributes
-        JSON.parse(res.body)
+        Hashie::Mash.new JSON.parse(res.body)
       end
 
       define_method("update_#{entity}") do |id, attributes={}|
         path = "entity/#{name}/#{id}"
         res = conn.post path, attributes
-        JSON.parse(res.body)
+        Hashie::Mash.new JSON.parse(res.body)
       end
 
       define_method("delete_#{entity}") do |id|
         path = "entity/#{name}/#{id}"
         res = conn.delete path
-        JSON.parse(res.body)
+        Hashie::Mash.new JSON.parse(res.body)
       end
 
     end
