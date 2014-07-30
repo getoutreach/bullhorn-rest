@@ -1,8 +1,7 @@
 require 'faraday'
-
 require 'bullhorn/rest/authentication'
-
 require 'bullhorn/rest/entities/base'
+
 Dir[File.dirname(__FILE__) + '/entities/*.rb'].each {|file| require file }
 
 module Bullhorn
@@ -33,6 +32,7 @@ class Client
   include Bullhorn::Rest::Entities::Placement
   include Bullhorn::Rest::Entities::PlacementChangeRequest
   include Bullhorn::Rest::Entities::PlacementCommission
+  include Bullhorn::Rest::Entities::Resume
   include Bullhorn::Rest::Entities::Sendout
   include Bullhorn::Rest::Entities::Skill
   include Bullhorn::Rest::Entities::Specialty
@@ -50,6 +50,7 @@ class Client
 
     @conn = Faraday.new do |f|
       f.use Middleware, self
+      #f.response :logger 
       f.adapter Faraday.default_adapter
     end
 
@@ -58,6 +59,15 @@ class Client
     end
 
   end
+
+  def parse_to_candidate(resume_text)
+      path = "resume/parseToCandidateViaJson?format=text"
+      encodedResume = {"resume" => resume_text}.to_json   
+      res = conn.post path, encodedResume
+
+     JSON.parse(res.body)
+  end 
+
 
 end
 

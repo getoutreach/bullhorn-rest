@@ -48,7 +48,7 @@ describe Bullhorn::Rest::Authentication, :vcr do
       {access_token: c.access_token}
     }
 
-    it 'authenticates' do
+    it 'authenticates' do 
 
       expect(client.access_token).to_not be_nil
       expect(client.rest_token).to be_nil

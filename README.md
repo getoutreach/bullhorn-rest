@@ -1,5 +1,9 @@
 # Bullhorn::Rest
 
+[![Code Climate](https://codeclimate.com/github/MrMattWright/bullhorn-rest.png)](https://codeclimate.com/github/MrMattWright/bullhorn-rest)
+[![Code Climate](https://codeclimate.com/github/MrMattWright/bullhorn-rest/coverage.png)](https://codeclimate.com/github/MrMattWright/bullhorn-rest)
+
+
 Ruby wrapper for the [Bullhorn REST API](http://developer.bullhorn.com/articles/getting_started). For additional information on the API itself, see the official [Bullhorn documentation](http://developer.bullhorn.com/documentation).
 
 ## Installation
@@ -111,6 +115,29 @@ The following entities are immutable and do not have any of the update/create/de
 * state
 * time_unit
 
+### Hashie's
+By adding the magic that is: https://github.com/intridea/hashie we can now refer to the JSON responses directly in ruby. 
+```
+res = client.candidates 
+
+start = res.start
+total = res.total
+```
+You can go as deeply nested in the response as you like and all the array/collection goodness Ruby supports is yours. 
+
+### Pagination
+
+Any request that returns multiple items will be paginated to 100 items by default. Any query will return 500 by default. You can override these. 
+
+In order to iterate through the entire result set page by page, you can use convenience methods: has_next_page? and next_page like in the following:
+```
+res = client.candidates 
+
+while res.has_next_page?
+  ... process response ...
+  res.next_page
+end
+```
 ### Associations
 
 "Has Many" associations can be accessed by passing in the name of the association in the `association` key of the options hash on the normal entity method. For instance, in order to get all of the candidates associated with a tearsheet:

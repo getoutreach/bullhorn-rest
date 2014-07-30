@@ -11,19 +11,19 @@ describe Bullhorn::Rest::Entities, :vcr do
 
       it ".#{plural} returns #{plural}" do
         res = client.send plural
-        expect(res['data']).to_not be_nil
+        expect(res.data).to_not be_nil
       end
 
       if owner_methods
 
         it ".department_#{plural} returns #{plural}" do
           res = client.send "department_#{plural}"
-          expect(res['data']).to_not be_nil
+          expect(res.data).to_not be_nil
         end
 
         it ".user_#{plural} returns #{plural}" do
           res = client.send "user_#{plural}"
-          expect(res['data']).to_not be_nil
+          expect(res.data).to_not be_nil
         end
 
       end
@@ -35,7 +35,6 @@ describe Bullhorn::Rest::Entities, :vcr do
   end
 
   let(:client) { Bullhorn::Rest::Client.new(client_id: test_bh_client_id, client_secret: test_bh_client_secret, username: test_bh_username, password: test_bh_password) }
-
   
   describe_entity :appointment
   describe_entity :appointment_attendee
