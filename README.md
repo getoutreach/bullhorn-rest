@@ -20,6 +20,12 @@ Or install it yourself as:
 
     $ gem install bullhorn-rest
 
+If you haven't accessed the bullhorn API before, it may be nececarry to follow these additional steps:
+
+1. Visit `https://auth.bullhornstaffing.com/oauth/authorize?action=Login&client_id=XXX&response_type=code&username=XXX` in a browser, replacing the client_id and username with your credentials.
+2. Type the password into the login form.
+3. Check that you are redirected to the redirect URL and that a `code` parameter has been appended to the URL.
+
 ## Usage
 
 ```ruby
