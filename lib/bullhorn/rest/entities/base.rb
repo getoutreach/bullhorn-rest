@@ -110,7 +110,7 @@ module Base
     unless options[:immutable]
 
       define_method("create_#{entity}") do |id, attributes={}|
-        path = "entity/#{name}/#{id}"
+        path = "entity/#{name}"
         res = conn.put path, attributes
         Hashie::Mash.new JSON.parse(res.body)
       end
