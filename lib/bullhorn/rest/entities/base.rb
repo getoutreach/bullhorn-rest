@@ -109,8 +109,7 @@ module Base
 
     unless options[:immutable]
 
-      define_method("create_#{entity}") do |attributes={}|
-        puts "--- bullhorn-rest base.rb create_candidate attributes = #{attributes.inspect}"
+      define_method("create_#{entity}") do |attributes = {}|
         path = "entity/#{name}"
         res = conn.put path, attributes
         Hashie::Mash.new JSON.parse(res.body)

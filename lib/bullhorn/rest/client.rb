@@ -50,11 +50,11 @@ class Client
 
     @conn = Faraday.new do |f|
       f.use Middleware, self
-      f.response :logger
+      # f.response :logger
       f.request :url_encoded
       f.adapter Faraday.default_adapter
     end
-    puts "--- bullhorn-rest client.rb @conn = #{@conn.inspect}"
+    
     [:username, :password, :client_id, :client_secret, :auth_code, :access_token, :refresh_token, :ttl, :rest_url, :rest_token].each do |opt|
       self.send "#{opt}=", options[opt] if options[opt]
     end
