@@ -51,8 +51,8 @@ class Client
     @conn = Faraday.new do |f|
       f.use Middleware, self
       f.response :logger
-      f.request :url_encoded
       f.request :multipart
+      f.request :url_encoded
       f.adapter Faraday.default_adapter
     end
 
@@ -72,7 +72,7 @@ class Client
 
   def parse_to_candidate_as_file(format, pop, attributes)
       path = "resume/parseToCandidate?format=#{format}&populateDescription=#{pop}" 
-      attributes['file'] = Faraday::UploadIO.new(attributes['file'])
+      attributes['file'] = Faraday::UploadIO.new(attributes['file'], attributes['ct'])
       res = conn.post path, attributes
      JSON.parse(res.body)
   end 
