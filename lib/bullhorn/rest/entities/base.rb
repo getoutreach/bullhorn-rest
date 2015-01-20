@@ -88,7 +88,8 @@ module Bullhorn
           end
 
           define_method("query_#{plural}") do |options={}|
-            params = {:fields => '*', :count => '500', :orderBy => 'name'}.merge(options)
+            # params = {:fields => '*', :count => '500', :orderBy => 'name'}.merge(options)
+            params = {:fields => '*', :count => '500'}.merge(options)
             path = "query/#{name}"
             res = @conn.get path, params
             obj = decorate_response JSON.parse(res.body)
