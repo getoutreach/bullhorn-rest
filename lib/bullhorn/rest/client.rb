@@ -54,7 +54,7 @@ class Client
       f.adapter Faraday.default_adapter
     end
 
-    [:username, :password, :client_id, :client_secret, :auth_code, :access_token, :refresh_token, :ttl, :rest_url, :rest_token].each do |opt|
+    [:username, :password, :client_id, :client_secret, :auth_code, :access_token, :refresh_token, :ttl, :rest_url, :rest_token, :auth_host, :rest_host].each do |opt|
       self.send "#{opt}=", options[opt] if options[opt]
     end
 
