@@ -50,7 +50,9 @@ class Client
 
     @conn = Faraday.new do |f|
       f.use Middleware, self
-      #f.response :logger 
+      f.response :logger
+      f.request :multipart
+      f.request :url_encoded
       f.adapter Faraday.default_adapter
     end
 
@@ -65,6 +67,13 @@ class Client
       encodedResume = {"resume" => resume_text}.to_json   
       res = conn.post path, encodedResume
 
+     JSON.parse(res.body)
+  end 
+
+  def parse_to_candidate_as_file(format, pop, attributes)
+      path = "resume/parseToCandidate?format=#{format}&populateDescription=#{pop}" 
+      attributes['file'] = Faraday::UploadIO.new(attributes['file'], attributes['ct'])
+      res = conn.post path, attributes
      JSON.parse(res.body)
   end 
 
