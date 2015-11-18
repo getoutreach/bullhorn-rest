@@ -41,6 +41,7 @@ module Authentication
     }
     res = auth_conn.get url, params
     location = res.headers['location']
+    return res.body if location.nil? #Return the error body
     self.auth_code = CGI::parse(URI(location).query)["code"].first
   end
 
